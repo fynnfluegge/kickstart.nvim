@@ -11,14 +11,47 @@ return {
   },
   cmd = 'Neotree',
   keys = {
-    { '\\', ':Neotree reveal<CR>', desc = 'NeoTree reveal', silent = true },
+    { '<leader>e', ':Neotree reveal<CR>', desc = 'NeoTree reveal', silent = true },
   },
   opts = {
+    sources = { 'filesystem', 'buffers', 'git_status' },
+    source_selector = {
+      winbar = false,
+    },
+    window = {
+      width = 48,
+      mappings = {
+        ['<space>'] = false, -- disable space until we figure out which-key disabling
+        ['[b'] = 'prev_source',
+        [']b'] = 'next_source',
+        o = 'open',
+        O = 'system_open',
+        h = 'parent_or_close',
+        l = 'child_or_open',
+        Y = 'copy_selector',
+      },
+    },
     filesystem = {
       window = {
         mappings = {
-          ['\\'] = 'close_window',
+          ['<leader>e'] = 'close_window',
         },
+      },
+      follow_current_file = {
+        enabled = true,
+        leave_dirs_open = true,
+      },
+      hijack_netrw_behavior = 'open_current',
+      use_libuv_file_watcher = true,
+      filtered_items = {
+        visible = false, -- when true, they will just be displayed differently than normal items
+        hide_dotfiles = false,
+        hide_gitignored = true,
+      },
+    },
+    default_component_configs = {
+      file_size = {
+        enabled = false,
       },
     },
   },
