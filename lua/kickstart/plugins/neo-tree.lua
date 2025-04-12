@@ -6,7 +6,7 @@ return {
   version = '*',
   dependencies = {
     'nvim-lua/plenary.nvim',
-    'nvim-tree/nvim-web-devicons', -- not strictly required, but recommended
+    'nvim-tree/nvim-web-devicons',
     'MunifTanjim/nui.nvim',
   },
   cmd = 'Neotree',
@@ -22,13 +22,8 @@ return {
       width = 48,
       mappings = {
         ['<space>'] = false, -- disable space until we figure out which-key disabling
-        ['[b'] = 'prev_source',
-        [']b'] = 'next_source',
-        o = 'open',
-        O = 'system_open',
-        h = 'parent_or_close',
-        l = 'child_or_open',
-        Y = 'copy_selector',
+        h = 'close_node',
+        l = 'open',
       },
     },
     filesystem = {

@@ -91,7 +91,7 @@ vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
 -- Set to true if you have a Nerd Font installed and selected in the terminal
-vim.g.have_nerd_font = false
+vim.g.have_nerd_font = true
 
 -- [[ Setting options ]]
 -- See `:help vim.opt`
@@ -102,7 +102,7 @@ vim.g.have_nerd_font = false
 vim.opt.number = true
 -- You can also add relative line numbers, to help with jumping.
 --  Experiment for yourself to see if you like it!
--- vim.opt.relativenumber = true
+vim.opt.relativenumber = true
 
 -- Enable mouse mode, can be useful for resizing splits for example!
 vim.opt.mouse = 'a'
@@ -952,7 +952,6 @@ require('lazy').setup({
   require 'kickstart.plugins.theme',
   require 'custom.plugins.init',
 
-
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    This is the easiest way to modularize your config.
   --
@@ -985,6 +984,32 @@ require('lazy').setup({
   },
 })
 
--- The line beneath this is called `modeline`. See `:help modeline`
--- vim: ts=2 sts=2 sw=2 et
 vim.cmd.colorscheme 'monet'
+vim.o.laststatus = 3
+vim.opt.cmdheight = 0
+vim.keymap.set('n', '<leader>w', ':write<CR>', { desc = 'Save buffer' })
+vim.keymap.set('n', '<leader>Q', ':quit<CR>', { desc = 'Quit Neovim' })
+vim.keymap.set('n', '<leader>gg', ':terminal lazygit<CR>', { desc = 'Open Lazygit in terminal' })
+vim.keymap.set('n', 'H', ':bprevious<CR>', { desc = 'Go to previous buffer' })
+vim.keymap.set('n', 'L', ':bnext<CR>', { desc = 'Go to next buffer' })
+vim.keymap.set('n', '|', ':split<CR>', { desc = 'Horizontal split' })
+vim.keymap.set('n', '\\', ':vsplit<CR>', { desc = 'Vertical split' })
+vim.keymap.set('n', '<C-q>', ':close<CR>', { desc = 'Close window' })
+vim.keymap.set('n', '<leader>c', ':bdelete<CR>', { desc = 'Close buffer' })
+vim.keymap.set('n', '<leader>bc', ':%bdelete|edit#|bdelete#<CR>', { desc = 'Close all other buffers' })
+
+-- visual mode and tab or <C-tab>
+
+vim.api.nvim_create_user_command('CopyBufferPath', function()
+  local path = vim.fn.expand '%:p'
+  vim.fn.setreg('+', path)
+  vim.notify('Copied "' .. path .. '" to the clipboard!')
+end, {})
+
+vim.cmd 'hi Cursor guifg=black guibg=yellow'
+vim.cmd "hi NormalCursor guifg=black guibg='#39FF14'"
+vim.opt.guicursor = {
+  'n-v-c:block-NormalCursor/lCursor',
+  'i-ci:block-Cursor/lCursor-blinkwait0-blinkon100-blinkoff100',
+  'r:hor50-Cursor/lCursor-blinkwait100-blinkon100-blinkoff100',
+}
