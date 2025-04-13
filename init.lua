@@ -987,8 +987,6 @@ vim.keymap.set('n', '|', ':vsplit<CR>', { desc = 'Horizontal split' })
 vim.keymap.set('n', '\\', ':split<CR>', { desc = 'Vertical split' })
 vim.keymap.set('n', '<C-q>', ':close<CR>', { desc = 'Close window' })
 
--- visual mode and tab or <C-tab>
-
 vim.api.nvim_create_user_command('CopyBufferPath', function()
   local path = vim.fn.expand '%:p'
   vim.fn.setreg('+', path)
