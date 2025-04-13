@@ -410,6 +410,12 @@ require('lazy').setup({
             require('telescope.themes').get_dropdown(),
           },
         },
+        defaults = {
+          layout_config = {
+            prompt_position = 'top',
+          },
+          sorting_strategy = 'ascending', -- important for prompt on top
+        },
       }
 
       -- Enable Telescope extensions if they are installed
@@ -989,7 +995,6 @@ vim.o.laststatus = 3
 vim.opt.cmdheight = 0
 vim.keymap.set('n', '<leader>w', ':write<CR>', { desc = 'Save buffer' })
 vim.keymap.set('n', '<leader>Q', ':qa<CR>', { desc = 'Quit Neovim' })
-vim.keymap.set('n', '<leader>gg', ':terminal lazygit<CR>', { desc = 'Open Lazygit in terminal' })
 vim.keymap.set('n', 'H', ':bprevious<CR>', { desc = 'Go to previous buffer' })
 vim.keymap.set('n', 'L', ':bnext<CR>', { desc = 'Go to next buffer' })
 vim.keymap.set('n', '|', ':split<CR>', { desc = 'Horizontal split' })
@@ -1073,3 +1078,7 @@ vim.lsp.util.open_floating_preview = function(contents, syntax, opts, ...)
   opts.border = opts.border or 'rounded' -- or 'single', 'double', etc.
   return _open_floating_preview(contents, syntax, opts, ...)
 end
+
+vim.opt.foldmethod = 'indent' -- or "expr"
+vim.opt.foldenable = true -- enable folding
+vim.opt.foldlevel = 99 -- open all folds by default

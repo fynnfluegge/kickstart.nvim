@@ -30,7 +30,7 @@ return {
         offsets = {
           {
             filetype = 'neo-tree',
-            text = 'Neo-tree',
+            text = '',
             highlight = 'Directory',
             text_align = 'left',
           },
@@ -42,5 +42,29 @@ return {
     'catgoose/nvim-colorizer.lua',
     event = 'BufReadPre',
     opts = {},
+  },
+  {
+    'lukas-reineke/indent-blankline.nvim',
+    main = 'ibl',
+    ---@module "ibl"
+    ---@type ibl.config
+    opts = {
+      indent = {
+        char = '│',
+      },
+      scope = {
+        enabled = true,
+      },
+    },
+  },
+  {
+    'kdheepak/lazygit.nvim',
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+    },
+    cmd = { 'LazyGit' },
+    keys = {
+      { '<leader>gg', '<cmd>LazyGit<cr>', desc = 'Toggle Lazygit' },
+    },
   },
 }
