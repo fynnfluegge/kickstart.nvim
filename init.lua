@@ -1096,3 +1096,27 @@ vim.api.nvim_create_autocmd('User', {
 
 vim.keymap.set('v', '<Tab>', '>gv', { desc = 'Indent selected lines' })
 vim.keymap.set('v', '<S-Tab>', '<gv', { desc = 'Unindent selected lines' })
+
+vim.keymap.set('n', '<leader>ld', function()
+  vim.diagnostic.open_float(nil, { focusable = false, border = 'rounded' })
+end, { desc = 'Show diagnostics under cursor' })
+vim.keymap.set('n', '<leader>lD', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
+
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = {
+    'qf', -- quickfix
+    'help', -- :help
+    'man', -- :Man
+    'lspinfo', -- :LspInfo
+    'spectre_panel',
+    'tsplayground',
+    'DressingSelect',
+    'notify',
+    'fugitive', -- git stuff
+    'null-ls-info',
+    'copilot-chat',
+  },
+  callback = function()
+    vim.keymap.set('n', 'q', '<cmd>close<cr>', { buffer = true, silent = true })
+  end,
+})
