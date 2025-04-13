@@ -781,32 +781,6 @@ require('lazy').setup({
     event = 'VimEnter',
     version = '1.*',
     dependencies = {
-      -- Snippet Engine
-      {
-        'L3MON4D3/LuaSnip',
-        version = '2.*',
-        build = (function()
-          -- Build Step is needed for regex support in snippets.
-          -- This step is not supported in many windows environments.
-          -- Remove the below condition to re-enable on windows.
-          if vim.fn.has 'win32' == 1 or vim.fn.executable 'make' == 0 then
-            return
-          end
-          return 'make install_jsregexp'
-        end)(),
-        dependencies = {
-          -- `friendly-snippets` contains a variety of premade snippets.
-          --    See the README about individual language/framework/plugin snippets:
-          --    https://github.com/rafamadriz/friendly-snippets
-          -- {
-          --   'rafamadriz/friendly-snippets',
-          --   config = function()
-          --     require('luasnip.loaders.from_vscode').lazy_load()
-          --   end,
-          -- },
-        },
-        opts = {},
-      },
       'folke/lazydev.nvim',
     },
     --- @module 'blink.cmp'
@@ -863,7 +837,7 @@ require('lazy').setup({
         },
       },
 
-      snippets = { preset = 'luasnip' },
+      -- snippets = { preset = 'luasnip' },
 
       -- Blink.cmp includes an optional, recommended rust fuzzy matcher,
       -- which automatically downloads a prebuilt binary when enabled.
@@ -962,6 +936,7 @@ require('lazy').setup({
   require 'kickstart.plugins.neo-tree',
   require 'kickstart.plugins.theme',
   require 'custom.plugins.init',
+  require 'custom.plugins.copilot',
 
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    This is the easiest way to modularize your config.
@@ -1120,3 +1095,15 @@ vim.api.nvim_create_autocmd('FileType', {
     vim.keymap.set('n', 'q', '<cmd>close<cr>', { buffer = true, silent = true })
   end,
 })
+
+vim.api.nvim_set_keymap('n', '<Leader>P', '', { noremap = true, silent = true, desc = '  CopilotChat' })
+vim.api.nvim_set_keymap('n', '<Leader>Pe', ':CopilotChatExplain<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('v', '<Leader>Pe', ':CopilotChatExplain<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<Leader>Pt', ':CopilotChatTests<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('v', '<Leader>Pt', ':CopilotChatTests<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<Leader>Pr', ':CopilotChatReview<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('v', '<Leader>Pr', ':CopilotChatReview<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<Leader>Pf', ':CopilotChatFix<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('v', '<Leader>Pf', ':CopilotChatFix<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<Leader>Pd', ':CopilotChatFixDiagnostic<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('v', '<Leader>Pd', ':CopilotChatFixDiagnostic<CR>', { noremap = true, silent = true })
