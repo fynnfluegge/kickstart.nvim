@@ -1062,3 +1062,14 @@ vim.keymap.set('n', '<leader>bc', function()
     end
   end
 end, { desc = 'Close all buffers except current' })
+
+-- Signature help border
+-- Save the original floating preview function
+local _open_floating_preview = vim.lsp.util.open_floating_preview
+
+-- Override it with your custom border
+vim.lsp.util.open_floating_preview = function(contents, syntax, opts, ...)
+  opts = opts or {}
+  opts.border = opts.border or 'rounded' -- or 'single', 'double', etc.
+  return _open_floating_preview(contents, syntax, opts, ...)
+end
