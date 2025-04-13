@@ -129,7 +129,7 @@ vim.opt.ignorecase = true
 vim.opt.smartcase = true
 
 -- Keep signcolumn on by default
-vim.opt.signcolumn = 'yes'
+vim.opt.signcolumn = 'no'
 
 -- Decrease update time
 vim.opt.updatetime = 250
@@ -988,15 +988,15 @@ vim.cmd.colorscheme 'monet'
 vim.o.laststatus = 3
 vim.opt.cmdheight = 0
 vim.keymap.set('n', '<leader>w', ':write<CR>', { desc = 'Save buffer' })
-vim.keymap.set('n', '<leader>Q', ':quit<CR>', { desc = 'Quit Neovim' })
+vim.keymap.set('n', '<leader>Q', ':qa<CR>', { desc = 'Quit Neovim' })
 vim.keymap.set('n', '<leader>gg', ':terminal lazygit<CR>', { desc = 'Open Lazygit in terminal' })
 vim.keymap.set('n', 'H', ':bprevious<CR>', { desc = 'Go to previous buffer' })
 vim.keymap.set('n', 'L', ':bnext<CR>', { desc = 'Go to next buffer' })
 vim.keymap.set('n', '|', ':split<CR>', { desc = 'Horizontal split' })
 vim.keymap.set('n', '\\', ':vsplit<CR>', { desc = 'Vertical split' })
 vim.keymap.set('n', '<C-q>', ':close<CR>', { desc = 'Close window' })
-vim.keymap.set('n', '<leader>c', ':bdelete<CR>', { desc = 'Close buffer' })
-vim.keymap.set('n', '<leader>bc', ':%bdelete|edit#|bdelete#<CR>', { desc = 'Close all other buffers' })
+-- vim.keymap.set('n', '<leader>c', ':bdelete<CR>', { desc = 'Close buffer' })
+-- vim.keymap.set('n', '<leader>bc', ':%bdelete|edit#|bdelete#<CR>', { desc = 'Close all other buffers' })
 
 -- visual mode and tab or <C-tab>
 
@@ -1013,3 +1013,52 @@ vim.opt.guicursor = {
   'i-ci:block-Cursor/lCursor-blinkwait0-blinkon100-blinkoff100',
   'r:hor50-Cursor/lCursor-blinkwait100-blinkon100-blinkoff100',
 }
+
+vim.keymap.set('n', '<leader>c', function()
+  local current_buf = vim.api.nvim_get_current_buf()
+  local current_win = vim.api.nvim_get_current_win()
+  local current_ft = vim.bo.filetype
+
+  -- Skip if we're in Neo-tree
+  if current_ft == 'neo-tree' then
+    vim.notify('Cannot delete Neo-tree buffer', vim.log.levels.WARN)
+    return
+  end
+
+  -- Get list of all real, listed buffers
+  local buffers = vim.fn.getbufinfo { buflisted = 1 }
+  local real_buffers = vim.tbl_filter(function(buf)
+    return buf.bufnr ~= current_buf and vim.fn.getbufvar(buf.bufnr, '&filetype') ~= 'neo-tree'
+  end, buffers)
+
+  -- Pick a buffer to go to next (just use the first one for now)
+  local target_buf = real_buffers[1] and real_buffers[1].bufnr or nil
+
+  -- If we have another buffer to go to, switch to it first
+  if target_buf then
+    vim.api.nvim_set_current_buf(target_buf)
+  else
+    -- No other real buffers, open a new one
+    vim.cmd 'enew'
+  end
+
+  -- Now safely delete the old one
+  vim.cmd('bd ' .. current_buf)
+end, { desc = 'Close current buffer' })
+
+vim.keymap.set('n', '<leader>bc', function()
+  local current_buf = vim.api.nvim_get_current_buf()
+
+  -- Get all listed buffers
+  local buffers = vim.fn.getbufinfo { buflisted = 1 }
+
+  for _, buf in ipairs(buffers) do
+    local bufnr = buf.bufnr
+    local ft = vim.fn.getbufvar(bufnr, '&filetype')
+
+    -- Delete only if it's not the current buffer and not neo-tree
+    if bufnr ~= current_buf and ft ~= 'neo-tree' then
+      vim.cmd('bd ' .. bufnr)
+    end
+  end
+end, { desc = 'Close all buffers except current' })

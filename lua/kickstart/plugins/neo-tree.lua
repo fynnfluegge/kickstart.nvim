@@ -11,9 +11,10 @@ return {
   },
   cmd = 'Neotree',
   keys = {
-    { '<leader>e', ':Neotree reveal<CR>', desc = 'NeoTree reveal', silent = true },
+    { '<leader>e', ':Neotree toggle<CR>', desc = 'NeoTree toggle', silent = true },
   },
   opts = {
+    close_if_last_window = true,
     sources = { 'filesystem', 'buffers', 'git_status' },
     source_selector = {
       winbar = false,
