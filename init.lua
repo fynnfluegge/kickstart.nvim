@@ -413,6 +413,9 @@ require('lazy').setup({
         defaults = {
           layout_config = {
             prompt_position = 'top',
+            horizontal = {
+              preview_width = 0.5,
+            },
           },
           sorting_strategy = 'ascending', -- important for prompt on top
         },
@@ -755,16 +758,7 @@ require('lazy').setup({
     'stevearc/conform.nvim',
     event = { 'BufWritePre' },
     cmd = { 'ConformInfo' },
-    keys = {
-      {
-        '<leader>f',
-        function()
-          require('conform').format { async = true, lsp_format = 'fallback' }
-        end,
-        mode = '',
-        desc = '[F]ormat buffer',
-      },
-    },
+    keys = {},
     opts = {
       notify_on_error = false,
       format_on_save = function(bufnr)
@@ -867,9 +861,6 @@ require('lazy').setup({
     },
   },
 
-  -- Highlight todo, notes, etc in comments
-  { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
-
   { -- Collection of various small independent plugins/modules
     'echasnovski/mini.nvim',
     config = function()
@@ -887,21 +878,6 @@ require('lazy').setup({
       -- - sd'   - [S]urround [D]elete [']quotes
       -- - sr)'  - [S]urround [R]eplace [)] [']
       require('mini.surround').setup()
-
-      -- Simple and easy statusline.
-      --  You could remove this setup call if you don't like it,
-      --  and try some other statusline plugin
-      local statusline = require 'mini.statusline'
-      -- set use_icons to true if you have a Nerd Font
-      statusline.setup { use_icons = vim.g.have_nerd_font }
-
-      -- You can configure sections in the statusline by overriding their
-      -- default behavior. For example, here we set the section for
-      -- cursor location to LINE:COLUMN
-      ---@diagnostic disable-next-line: duplicate-set-field
-      statusline.section_location = function()
-        return '%2l:%-2v'
-      end
 
       -- ... and there is more!
       --  Check out: https://github.com/echasnovski/mini.nvim
@@ -1091,6 +1067,11 @@ vim.opt.foldmethod = 'indent' -- or "expr"
 vim.opt.foldenable = true -- enable folding
 vim.opt.foldlevel = 99 -- open all folds by default
 
+-- Avoid No Fold found error
+vim.keymap.set('n', 'za', function()
+  vim.cmd 'silent! normal! za'
+end, { noremap = true, silent = true })
+
 -- close neo tree before saving session
 vim.api.nvim_create_autocmd('User', {
   pattern = 'PersistenceSavePre',
@@ -1105,7 +1086,7 @@ vim.keymap.set('v', '<S-Tab>', '<gv', { desc = 'Unindent selected lines' })
 vim.keymap.set('n', '<leader>ld', function()
   vim.diagnostic.open_float(nil, { focusable = false, border = 'rounded' })
 end, { desc = 'Show diagnostics under cursor' })
-vim.keymap.set('n', '<leader>lD', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
+vim.keymap.set('n', '<leader>lD', require('telescope.builtin').diagnostics, { desc = 'Show all diagnostics' })
 
 vim.api.nvim_create_autocmd('FileType', {
   pattern = {
@@ -1137,3 +1118,15 @@ vim.api.nvim_set_keymap('n', '<Leader>Pf', ':CopilotChatFix<CR>', { noremap = tr
 vim.api.nvim_set_keymap('v', '<Leader>Pf', ':CopilotChatFix<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<Leader>Pd', ':CopilotChatFixDiagnostic<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('v', '<Leader>Pd', ':CopilotChatFixDiagnostic<CR>', { noremap = true, silent = true })
+
+-- In your init.lua or a Lua config file
+vim.api.nvim_create_autocmd('TextYankPost', {
+  pattern = '*',
+  callback = function()
+    vim.highlight.on_yank {
+      higroup = 'YankHighlight', -- You can change this name
+      timeout = 200, -- in milliseconds
+    }
+  end,
+})
+vim.api.nvim_set_hl(0, 'YankHighlight', { bg = '#44475a', fg = '#f2ece6' }) -- Use your preferred colors
