@@ -37,7 +37,11 @@ return {
   {
     'catgoose/nvim-colorizer.lua',
     event = 'BufReadPre',
-    opts = {},
+    opts = {
+      user_default_options = {
+        names = false,
+      },
+    },
   },
   {
     'lukas-reineke/indent-blankline.nvim',
@@ -72,5 +76,15 @@ return {
     'windwp/nvim-autopairs',
     event = 'InsertEnter',
     opts = {},
+  },
+  {
+    'HiPhish/rainbow-delimiters.nvim',
+  },
+  { 'alexghergh/nvim-tmux-navigation', lazy = false },
+  {
+    'fynnfluegge/rocketnotes.nvim',
+    dependencies = {
+      'OXY2DEV/markview.nvim',
+    },
   },
 }
