@@ -1070,20 +1070,20 @@ vim.keymap.set('n', 'za', function()
   vim.cmd 'silent! normal! za'
 end, { noremap = true, silent = true })
 
--- close neo tree before saving session
+-- close neo tree and copilot chat before saving session
 vim.api.nvim_create_autocmd('User', {
   pattern = 'PersistenceSavePre',
   callback = function()
     vim.cmd ':Neotree close'
+    vim.cmd ':CopilotChatClose'
   end,
 })
 
 vim.keymap.set('v', '<Tab>', '>gv', { desc = 'Indent selected lines' })
 vim.keymap.set('v', '<S-Tab>', '<gv', { desc = 'Unindent selected lines' })
 
-vim.keymap.set('n', '<leader>ld', function()
-  vim.diagnostic.open_float(nil, { focusable = false, border = 'rounded' })
-end, { desc = 'Show diagnostics under cursor' })
+-- stylua: ignore
+vim.keymap.set('n', '<leader>ld', function() vim.diagnostic.open_float(nil, { focusable = false, border = 'rounded' }) end, { desc = 'Show diagnostics under cursor' })
 vim.keymap.set('n', '<leader>lD', require('telescope.builtin').diagnostics, { desc = 'Show all diagnostics' })
 
 vim.api.nvim_create_autocmd('FileType', {
@@ -1128,3 +1128,7 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   end,
 })
 vim.api.nvim_set_hl(0, 'YankHighlight', { bg = '#44475a', fg = '#f2ece6' }) -- Use your preferred colors
+
+vim.api.nvim_set_keymap('n', '<leader>gc', ':lua require("telescope.builtin").git_commits()<CR>', { noremap = true, silent = true, desc = 'Show Git Commits' })
+-- stylua: ignore
+vim.api.nvim_set_keymap( 'n', '<leader>gb', ':lua require("telescope.builtin").git_branches()<CR>', { noremap = true, silent = true, desc = 'Show Git Branches' })
