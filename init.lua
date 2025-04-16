@@ -194,6 +194,22 @@ vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right win
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 
+vim.keymap.set('n', '<C-h>', function()
+  if vim.fn.winnr() == 1 then
+    vim.cmd 'wincmd w' -- Go to the last window
+  else
+    vim.cmd 'wincmd h' -- Move to the left window
+  end
+end, { noremap = true, silent = true })
+
+vim.keymap.set('n', '<C-l>', function()
+  if vim.fn.winnr() == vim.fn.winnr '$' then
+    vim.cmd 'wincmd w' -- Go to the first window
+  else
+    vim.cmd 'wincmd l' -- Move to the right window
+  end
+end, { noremap = true, silent = true })
+
 -- NOTE: Some terminals have colliding keymaps or are not able to send distinct keycodes
 -- vim.keymap.set("n", "<C-S-h>", "<C-w>H", { desc = "Move window to the left" })
 -- vim.keymap.set("n", "<C-S-l>", "<C-w>L", { desc = "Move window to the right" })
@@ -1132,3 +1148,7 @@ vim.api.nvim_set_hl(0, 'YankHighlight', { bg = '#44475a', fg = '#f2ece6' }) -- U
 vim.api.nvim_set_keymap('n', '<leader>gc', ':lua require("telescope.builtin").git_commits()<CR>', { noremap = true, silent = true, desc = 'Show Git Commits' })
 -- stylua: ignore
 vim.api.nvim_set_keymap( 'n', '<leader>gb', ':lua require("telescope.builtin").git_branches()<CR>', { noremap = true, silent = true, desc = 'Show Git Branches' })
+
+vim.keymap.set('i', '<C-L>', '<Plug>(copilot-accept-word)')
+
+vim.keymap.set('i', '<C-J>', '<Plug>(copilot-accept-line)')
