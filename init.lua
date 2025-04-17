@@ -1133,17 +1133,16 @@ vim.api.nvim_set_keymap('v', '<Leader>Pf', ':CopilotChatFix<CR>', { noremap = tr
 vim.api.nvim_set_keymap('n', '<Leader>Pd', ':CopilotChatFixDiagnostic<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('v', '<Leader>Pd', ':CopilotChatFixDiagnostic<CR>', { noremap = true, silent = true })
 
--- In your init.lua or a Lua config file
 vim.api.nvim_create_autocmd('TextYankPost', {
   pattern = '*',
   callback = function()
     vim.highlight.on_yank {
-      higroup = 'YankHighlight', -- You can change this name
-      timeout = 200, -- in milliseconds
+      higroup = 'YankHighlight',
+      timeout = 200,
     }
   end,
 })
-vim.api.nvim_set_hl(0, 'YankHighlight', { bg = '#44475a', fg = '#f2ece6' }) -- Use your preferred colors
+vim.api.nvim_set_hl(0, 'YankHighlight', { bg = '#44475a', fg = '#f2ece6' })
 
 vim.api.nvim_set_keymap('n', '<leader>gc', ':lua require("telescope.builtin").git_commits()<CR>', { noremap = true, silent = true, desc = 'Show Git Commits' })
 -- stylua: ignore
@@ -1152,3 +1151,5 @@ vim.api.nvim_set_keymap( 'n', '<leader>gb', ':lua require("telescope.builtin").g
 vim.keymap.set('i', '<C-L>', '<Plug>(copilot-accept-word)')
 
 vim.keymap.set('i', '<C-J>', '<Plug>(copilot-accept-line)')
+
+vim.api.nvim_set_keymap('n', '<leader>gB', '<cmd>BlameToggle<cr>', { noremap = true, silent = true, desc = 'Toggle Git Blame' })

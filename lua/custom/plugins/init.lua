@@ -212,4 +212,22 @@ return {
       },
     },
   },
+  {
+    'kevinhwang91/nvim-hlslens',
+    opts = { on_keys = { auto_hlsearch = false } },
+  },
+  {
+    'mg979/vim-visual-multi',
+    event = 'BufRead',
+    config = function()
+      vim.api.nvim_set_var('VM_theme', 'neon')
+    end,
+  },
+  {
+    'FabijanZulj/blame.nvim',
+    lazy = false,
+    config = function()
+      require('blame').setup {}
+    end,
+  },
 }
