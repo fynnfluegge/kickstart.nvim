@@ -728,6 +728,7 @@ require('lazy').setup({
           end,
         },
         ruff = {},
+        jsonls = {},
       }
 
       -- Ensure the servers and tools above are installed
@@ -999,8 +1000,8 @@ vim.keymap.set('n', '<leader>w', ':write<CR>', { desc = 'Save buffer' })
 vim.keymap.set('n', '<leader>Q', ':qa<CR>', { desc = 'Quit Neovim' })
 vim.keymap.set('n', 'H', ':bprevious<CR>', { desc = 'Go to previous buffer' })
 vim.keymap.set('n', 'L', ':bnext<CR>', { desc = 'Go to next buffer' })
-vim.keymap.set('n', '|', ':vsplit<CR>', { desc = 'Horizontal split' })
-vim.keymap.set('n', '\\', ':split<CR>', { desc = 'Vertical split' })
+vim.keymap.set('n', '|', ':split<CR>', { desc = 'Horizontal split' })
+vim.keymap.set('n', '\\', ':vsplit<CR>', { desc = 'Vertical split' })
 vim.keymap.set('n', '<C-q>', ':close<CR>', { desc = 'Close window' })
 
 vim.api.nvim_create_user_command('CopyBufferPath', function()
