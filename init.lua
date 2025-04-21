@@ -728,7 +728,6 @@ require('lazy').setup({
           end,
         },
         ruff = {},
-        jsonls = {},
       }
 
       -- Ensure the servers and tools above are installed
@@ -797,6 +796,9 @@ require('lazy').setup({
         python = { 'isort', 'black' },
         javascript = { 'prettierd', 'prettier', stop_after_first = true },
         typescript = { 'prettierd', 'prettier', stop_after_first = true },
+        html = { 'prettierd', 'prettier', stop_after_first = true },
+        scss = { 'prettierd', 'prettier', stop_after_first = true },
+        json = { 'prettierd', 'prettier', stop_after_first = true },
       },
     },
   },
@@ -1154,3 +1156,10 @@ vim.keymap.set('i', '<C-L>', '<Plug>(copilot-accept-word)')
 vim.keymap.set('i', '<C-J>', '<Plug>(copilot-accept-line)')
 
 vim.api.nvim_set_keymap('n', '<leader>gB', '<cmd>BlameToggle<cr>', { noremap = true, silent = true, desc = 'Toggle Git Blame' })
+
+-- Ensure html files with file name format *.html are detected as html
+vim.filetype.add {
+  pattern = {
+    ['.*%.html'] = 'html',
+  },
+}
