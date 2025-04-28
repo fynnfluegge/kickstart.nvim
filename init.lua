@@ -727,7 +727,7 @@ require('lazy').setup({
             client.server_capabilities.documentRangeFormattingProvider = false
           end,
         },
-        ruff = {},
+        basedpyright = {},
       }
 
       -- Ensure the servers and tools above are installed
@@ -750,6 +750,8 @@ require('lazy').setup({
         'prettierd',
         'black',
         'isort',
+        'gofumpt',
+        'goimports',
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
@@ -796,7 +798,9 @@ require('lazy').setup({
         python = { 'isort', 'black' },
         javascript = { 'prettierd', 'prettier', stop_after_first = true },
         typescript = { 'prettierd', 'prettier', stop_after_first = true },
+        go = { 'gofumpt', 'goimports' },
         html = { 'prettierd', 'prettier', stop_after_first = true },
+        htmlangular = { 'prettierd', 'prettier', stop_after_first = true },
         scss = { 'prettierd', 'prettier', stop_after_first = true },
         json = { 'prettierd', 'prettier', stop_after_first = true },
       },
@@ -1135,6 +1139,12 @@ vim.api.nvim_set_keymap('n', '<Leader>Pf', ':CopilotChatFix<CR>', { noremap = tr
 vim.api.nvim_set_keymap('v', '<Leader>Pf', ':CopilotChatFix<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<Leader>Pd', ':CopilotChatFixDiagnostic<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('v', '<Leader>Pd', ':CopilotChatFixDiagnostic<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<Leader>Po', ':CopilotChatOpen<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('v', '<Leader>Po', ':CopilotChatOpen<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<Leader>Pc', ':CopilotChatReset<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('v', '<Leader>Pc', ':CopilotChatReset<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<Leader>Pp', ':CopilotChatToggle<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('v', '<Leader>Pp', ':CopilotChatToggle<CR>', { noremap = true, silent = true })
 
 vim.api.nvim_create_autocmd('TextYankPost', {
   pattern = '*',
@@ -1156,10 +1166,3 @@ vim.keymap.set('i', '<C-L>', '<Plug>(copilot-accept-word)')
 vim.keymap.set('i', '<C-J>', '<Plug>(copilot-accept-line)')
 
 vim.api.nvim_set_keymap('n', '<leader>gB', '<cmd>BlameToggle<cr>', { noremap = true, silent = true, desc = 'Toggle Git Blame' })
-
--- Ensure html files with file name format *.html are detected as html
-vim.filetype.add {
-  pattern = {
-    ['.*%.html'] = 'html',
-  },
-}
