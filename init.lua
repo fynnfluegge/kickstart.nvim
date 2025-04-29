@@ -1190,7 +1190,7 @@ vim.api.nvim_set_keymap('n', '<leader>gc', ':lua require("telescope.builtin").gi
 vim.api.nvim_set_keymap( 'n', '<leader>gb', ':lua require("telescope.builtin").git_branches()<CR>', { noremap = true, silent = true, desc = 'Show Git Branches' })
 
 vim.keymap.set('i', '<C-L>', '<Plug>(copilot-accept-word)')
-
 vim.keymap.set('i', '<C-J>', '<Plug>(copilot-accept-line)')
+vim.keymap.set('i', '<C-d>', '<Plug>(copilot-dismiss)')
 
 vim.api.nvim_set_keymap('n', '<leader>gB', '<cmd>BlameToggle<cr>', { noremap = true, silent = true, desc = 'Toggle Git Blame' })
