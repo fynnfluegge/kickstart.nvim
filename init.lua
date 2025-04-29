@@ -812,6 +812,32 @@ require('lazy').setup({
     event = 'VimEnter',
     version = '1.*',
     dependencies = {
+      -- Snippet Engine
+      -- {
+      --   'L3MON4D3/LuaSnip',
+      --   version = '2.*',
+      --   build = (function()
+      --     -- Build Step is needed for regex support in snippets.
+      --     -- This step is not supported in many windows environments.
+      --     -- Remove the below condition to re-enable on windows.
+      --     if vim.fn.has 'win32' == 1 or vim.fn.executable 'make' == 0 then
+      --       return
+      --     end
+      --     return 'make install_jsregexp'
+      --   end)(),
+      --   dependencies = {
+      --     -- `friendly-snippets` contains a variety of premade snippets.
+      --     --    See the README about individual language/framework/plugin snippets:
+      --     --    https://github.com/rafamadriz/friendly-snippets
+      --     {
+      --       'rafamadriz/friendly-snippets',
+      --       config = function()
+      --         require('luasnip.loaders.from_vscode').lazy_load()
+      --       end,
+      --     },
+      --   },
+      --   opts = {},
+      -- },
       'folke/lazydev.nvim',
     },
     --- @module 'blink.cmp'
@@ -1002,12 +1028,13 @@ require('lazy').setup({
 vim.cmd.colorscheme 'monet'
 vim.o.laststatus = 3
 vim.opt.cmdheight = 0
+
 vim.keymap.set('n', '<leader>w', ':write<CR>', { desc = 'Save buffer' })
 vim.keymap.set('n', '<leader>Q', ':qa<CR>', { desc = 'Quit Neovim' })
 vim.keymap.set('n', 'H', ':bprevious<CR>', { desc = 'Go to previous buffer' })
 vim.keymap.set('n', 'L', ':bnext<CR>', { desc = 'Go to next buffer' })
-vim.keymap.set('n', '|', ':split<CR>', { desc = 'Horizontal split' })
-vim.keymap.set('n', '\\', ':vsplit<CR>', { desc = 'Vertical split' })
+vim.keymap.set('n', '|', ':vsplit<CR>', { desc = 'Horizontal split' })
+vim.keymap.set('n', '\\', ':split<CR>', { desc = 'Vertical split' })
 vim.keymap.set('n', '<C-q>', ':close<CR>', { desc = 'Close window' })
 
 vim.api.nvim_create_user_command('CopyBufferPath', function()
