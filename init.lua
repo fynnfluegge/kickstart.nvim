@@ -1194,3 +1194,15 @@ vim.keymap.set('i', '<C-J>', '<Plug>(copilot-accept-line)')
 vim.keymap.set('i', '<C-d>', '<Plug>(copilot-dismiss)')
 
 vim.api.nvim_set_keymap('n', '<leader>gB', '<cmd>BlameToggle<cr>', { noremap = true, silent = true, desc = 'Toggle Git Blame' })
+
+local function quick_chat(selection_type)
+  return function()
+    vim.ui.input({ prompt = 'Quick Chat: ' }, function(input)
+      if input ~= nil and input ~= '' then
+        require('CopilotChat').ask(input, { selection = require('CopilotChat.select')[selection_type] })
+      end
+    end)
+  end
+end
+
+vim.keymap.set('v', '<leader>p', quick_chat 'visual', { desc = 'Quick Chat' })
