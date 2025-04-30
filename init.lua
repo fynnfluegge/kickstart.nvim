@@ -727,7 +727,27 @@ require('lazy').setup({
             client.server_capabilities.documentRangeFormattingProvider = false
           end,
         },
-        basedpyright = {},
+        -- ruff = {},
+        -- pyright = {},
+        basedpyright = {
+          settings = {
+            basedpyright = {
+              analysis = {
+                typeCheckingMode = 'basic',
+                autoImportCompletions = true,
+                diagnosticSeverityOverrides = {
+                  reportUnusedImport = 'information',
+                  reportUnusedFunction = 'information',
+                  reportUnusedVariable = 'information',
+                  reportGeneralTypeIssues = 'none',
+                  reportOptionalMemberAccess = 'none',
+                  reportOptionalSubscript = 'none',
+                  reportPrivateImportUsage = 'none',
+                },
+              },
+            },
+          },
+        },
       }
 
       -- Ensure the servers and tools above are installed
