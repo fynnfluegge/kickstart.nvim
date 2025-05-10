@@ -727,7 +727,27 @@ require('lazy').setup({
             client.server_capabilities.documentRangeFormattingProvider = false
           end,
         },
-        basedpyright = {},
+        -- ruff = {},
+        -- pyright = {},
+        basedpyright = {
+          settings = {
+            basedpyright = {
+              analysis = {
+                typeCheckingMode = 'basic',
+                autoImportCompletions = true,
+                diagnosticSeverityOverrides = {
+                  reportUnusedImport = 'information',
+                  reportUnusedFunction = 'information',
+                  reportUnusedVariable = 'information',
+                  reportGeneralTypeIssues = 'none',
+                  reportOptionalMemberAccess = 'none',
+                  reportOptionalSubscript = 'none',
+                  reportPrivateImportUsage = 'none',
+                },
+              },
+            },
+          },
+        },
       }
 
       -- Ensure the servers and tools above are installed
@@ -812,6 +832,32 @@ require('lazy').setup({
     event = 'VimEnter',
     version = '1.*',
     dependencies = {
+      -- Snippet Engine
+      -- {
+      --   'L3MON4D3/LuaSnip',
+      --   version = '2.*',
+      --   build = (function()
+      --     -- Build Step is needed for regex support in snippets.
+      --     -- This step is not supported in many windows environments.
+      --     -- Remove the below condition to re-enable on windows.
+      --     if vim.fn.has 'win32' == 1 or vim.fn.executable 'make' == 0 then
+      --       return
+      --     end
+      --     return 'make install_jsregexp'
+      --   end)(),
+      --   dependencies = {
+      --     -- `friendly-snippets` contains a variety of premade snippets.
+      --     --    See the README about individual language/framework/plugin snippets:
+      --     --    https://github.com/rafamadriz/friendly-snippets
+      --     {
+      --       'rafamadriz/friendly-snippets',
+      --       config = function()
+      --         require('luasnip.loaders.from_vscode').lazy_load()
+      --       end,
+      --     },
+      --   },
+      --   opts = {},
+      -- },
       'folke/lazydev.nvim',
     },
     --- @module 'blink.cmp'
@@ -852,6 +898,7 @@ require('lazy').setup({
       },
 
       completion = {
+        list = { selection = { preselect = false, auto_insert = true } },
         -- By default, you may press `<c-space>` to show the documentation.
         -- Optionally, set `auto_show = true` to show the documentation after a delay.
         documentation = { auto_show = false, auto_show_delay_ms = 500 },
@@ -1002,12 +1049,13 @@ require('lazy').setup({
 vim.cmd.colorscheme 'monet'
 vim.o.laststatus = 3
 vim.opt.cmdheight = 0
+
 vim.keymap.set('n', '<leader>w', ':write<CR>', { desc = 'Save buffer' })
 vim.keymap.set('n', '<leader>Q', ':qa<CR>', { desc = 'Quit Neovim' })
 vim.keymap.set('n', 'H', ':bprevious<CR>', { desc = 'Go to previous buffer' })
 vim.keymap.set('n', 'L', ':bnext<CR>', { desc = 'Go to next buffer' })
-vim.keymap.set('n', '|', ':split<CR>', { desc = 'Horizontal split' })
-vim.keymap.set('n', '\\', ':vsplit<CR>', { desc = 'Vertical split' })
+vim.keymap.set('n', '|', ':vsplit<CR>', { desc = 'Horizontal split' })
+vim.keymap.set('n', '\\', ':split<CR>', { desc = 'Vertical split' })
 vim.keymap.set('n', '<C-q>', ':close<CR>', { desc = 'Close window' })
 
 vim.api.nvim_create_user_command('CopyBufferPath', function()
@@ -1162,7 +1210,19 @@ vim.api.nvim_set_keymap('n', '<leader>gc', ':lua require("telescope.builtin").gi
 vim.api.nvim_set_keymap( 'n', '<leader>gb', ':lua require("telescope.builtin").git_branches()<CR>', { noremap = true, silent = true, desc = 'Show Git Branches' })
 
 vim.keymap.set('i', '<C-L>', '<Plug>(copilot-accept-word)')
-
 vim.keymap.set('i', '<C-J>', '<Plug>(copilot-accept-line)')
+vim.keymap.set('i', '<C-d>', '<Plug>(copilot-dismiss)')
 
 vim.api.nvim_set_keymap('n', '<leader>gB', '<cmd>BlameToggle<cr>', { noremap = true, silent = true, desc = 'Toggle Git Blame' })
+
+local function quick_chat(selection_type)
+  return function()
+    vim.ui.input({ prompt = 'Quick Chat: ' }, function(input)
+      if input ~= nil and input ~= '' then
+        require('CopilotChat').ask(input, { selection = require('CopilotChat.select')[selection_type] })
+      end
+    end)
+  end
+end
+
+vim.keymap.set('v', '<leader>p', quick_chat 'visual', { desc = 'Quick Chat' })
