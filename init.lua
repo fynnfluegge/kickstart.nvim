@@ -1048,7 +1048,7 @@ require('lazy').setup({
 
 vim.cmd.colorscheme 'monet'
 vim.o.laststatus = 3
-vim.opt.cmdheight = 0
+vim.opt.cmdheight = 1
 
 vim.keymap.set('n', '<leader>w', ':write<CR>', { desc = 'Save buffer' })
 vim.keymap.set('n', '<leader>Q', ':qa<CR>', { desc = 'Quit Neovim' })
