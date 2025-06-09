@@ -102,10 +102,10 @@ vim.g.have_nerd_font = true
 vim.o.number = true
 -- You can also add relative line numbers, to help with jumping.
 --  Experiment for yourself to see if you like it!
-vim.opt.relativenumber = true
+vim.o.relativenumber = true
 
 -- Enable mouse mode, can be useful for resizing splits for example!
-vim.opt.mouse = 'a'
+vim.o.mouse = 'a'
 
 -- Don't show the mode, since it's already in the status line
 vim.o.showmode = false
@@ -836,31 +836,31 @@ require('lazy').setup({
     version = '1.*',
     dependencies = {
       -- Snippet Engine
-      -- {
-      --   'L3MON4D3/LuaSnip',
-      --   version = '2.*',
-      --   build = (function()
-      --     -- Build Step is needed for regex support in snippets.
-      --     -- This step is not supported in many windows environments.
-      --     -- Remove the below condition to re-enable on windows.
-      --     if vim.fn.has 'win32' == 1 or vim.fn.executable 'make' == 0 then
-      --       return
-      --     end
-      --     return 'make install_jsregexp'
-      --   end)(),
-      --   dependencies = {
-      --     -- `friendly-snippets` contains a variety of premade snippets.
-      --     --    See the README about individual language/framework/plugin snippets:
-      --     --    https://github.com/rafamadriz/friendly-snippets
-      --     {
-      --       'rafamadriz/friendly-snippets',
-      --       config = function()
-      --         require('luasnip.loaders.from_vscode').lazy_load()
-      --       end,
-      --     },
-      --   },
-      --   opts = {},
-      -- },
+      {
+        'L3MON4D3/LuaSnip',
+        version = '2.*',
+        build = (function()
+          -- Build Step is needed for regex support in snippets.
+          -- This step is not supported in many windows environments.
+          -- Remove the below condition to re-enable on windows.
+          if vim.fn.has 'win32' == 1 or vim.fn.executable 'make' == 0 then
+            return
+          end
+          return 'make install_jsregexp'
+        end)(),
+        dependencies = {
+          -- `friendly-snippets` contains a variety of premade snippets.
+          --    See the README about individual language/framework/plugin snippets:
+          --    https://github.com/rafamadriz/friendly-snippets
+          {
+            'rafamadriz/friendly-snippets',
+            config = function()
+              require('luasnip.loaders.from_vscode').lazy_load()
+            end,
+          },
+        },
+        opts = {},
+      },
       'folke/lazydev.nvim',
     },
     --- @module 'blink.cmp'
@@ -1051,7 +1051,7 @@ require('lazy').setup({
 
 vim.cmd.colorscheme 'monet'
 vim.o.laststatus = 3
-vim.opt.cmdheight = 1
+vim.o.cmdheight = 1
 
 vim.keymap.set('n', '<leader>w', ':write<CR>', { desc = 'Save buffer' })
 vim.keymap.set('n', '<leader>Q', ':qa<CR>', { desc = 'Quit Neovim' })
@@ -1135,14 +1135,9 @@ vim.lsp.util.open_floating_preview = function(contents, syntax, opts, ...)
   return _open_floating_preview(contents, syntax, opts, ...)
 end
 
-vim.opt.foldmethod = 'indent' -- or "expr"
-vim.opt.foldenable = true -- enable folding
-vim.opt.foldlevel = 99 -- open all folds by default
-
--- Avoid No Fold found error
-vim.keymap.set('n', 'za', function()
-  vim.cmd 'silent! normal! za'
-end, { noremap = true, silent = true })
+vim.o.foldmethod = 'indent' -- or "expr"
+vim.o.foldenable = true -- enable folding
+vim.o.foldlevel = 99 -- open all folds by default
 
 -- close neo tree and copilot chat before saving session
 vim.api.nvim_create_autocmd('User', {
