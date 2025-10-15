@@ -1257,3 +1257,5 @@ local function quick_chat(selection_type)
 end
 
 vim.keymap.set('v', '<leader>p', quick_chat 'visual', { desc = 'Quick Chat' })
+
+require 'custom.plugins.global_replace'
