@@ -275,7 +275,8 @@ local function execute_replacement(results, find_text, replace_text)
             while true do
               local lower_line = new_line:lower()
               local lower_find = find_text:lower()
-              local pos = lower_line:find(vim.pesc(lower_find), start_pos, true)
+              -- Use plain text search (no patterns) - don't need vim.pesc here
+              local pos = lower_line:find(lower_find, start_pos, true)
 
               if not pos then break end
 
