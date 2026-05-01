@@ -93,9 +93,9 @@ return {
   },
   {
     'nvim-treesitter/nvim-treesitter-textobjects',
+    branch = 'main',
     config = function()
-      require('nvim-treesitter.configs').setup {
-        textobjects = {
+      require('nvim-treesitter-textobjects').setup {
           select = {
             enable = true,
             lookahead = true,
@@ -151,7 +151,6 @@ return {
               ['<A'] = { query = '@parameter.inner', desc = 'Swap previous argument' },
             },
           },
-        },
       }
     end,
   },
@@ -237,5 +236,10 @@ return {
     'pmizio/typescript-tools.nvim',
     dependencies = { 'nvim-lua/plenary.nvim', 'neovim/nvim-lspconfig' },
     opts = {},
+  },
+  {
+    'mrcjkb/rustaceanvim',
+    version = '^7', -- Recommended
+    lazy = false, -- This plugin is already lazy
   },
 }
