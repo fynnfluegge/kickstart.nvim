@@ -60,7 +60,7 @@ return {
   {
     'kdheepak/lazygit.nvim',
     dependencies = {
-      'nvim-lua/plenary.nvim',
+      { 'nvim-lua/plenary.nvim', branch = 'master' },
     },
     cmd = { 'LazyGit' },
     keys = {
@@ -182,7 +182,7 @@ return {
   {
     'NeogitOrg/neogit',
     dependencies = {
-      'nvim-lua/plenary.nvim',
+      { 'nvim-lua/plenary.nvim', branch = 'master' },
       'sindrets/diffview.nvim',
       'nvim-telescope/telescope.nvim',
     },
@@ -234,7 +234,7 @@ return {
   },
   {
     'pmizio/typescript-tools.nvim',
-    dependencies = { 'nvim-lua/plenary.nvim', 'neovim/nvim-lspconfig' },
+    dependencies = { { 'nvim-lua/plenary.nvim', branch = 'master' }, 'neovim/nvim-lspconfig' },
     opts = {},
   },
   {

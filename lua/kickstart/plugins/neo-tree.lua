@@ -4,8 +4,9 @@
 return {
   'nvim-neo-tree/neo-tree.nvim',
   version = '*',
+  pkg = false,
   dependencies = {
-    'nvim-lua/plenary.nvim',
+    { 'nvim-lua/plenary.nvim', branch = 'master' },
     'nvim-tree/nvim-web-devicons',
     'MunifTanjim/nui.nvim',
   },
