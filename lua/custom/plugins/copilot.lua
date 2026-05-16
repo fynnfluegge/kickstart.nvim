@@ -26,6 +26,7 @@ return {
   -- },
   {
     'CopilotC-Nvim/CopilotChat.nvim',
+    branch = 'main',
     event = 'BufReadPost',
     dependencies = {
       { 'github/copilot.vim' }, -- or zbirenbaum/copilot.lua
